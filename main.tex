@@ -14,6 +14,7 @@
 \usepackage{graphicx}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 \newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand*\sndff{\mathbb{I}}
 
 \title{Theorema Egregium}
 \author{Michael Qian}
@@ -68,7 +69,89 @@ The unit surface normal $\hat{n}$ can additionally be interpreted as a map from 
 
 \section{Notation}
 
-The functions ${\vec{r}}$, ${\vec{N}}$, ${\hat{n}}$, and all of their partial derivatives are implicitly evaluated at the same point $(u_1, u_2) \in D$ whenever they appear in an expression without being given explicit arguments, so that they are shorthands for the $\mathbb{R}^3$ vectors resulting from those evaluations. Any statement made about these vectors implicitly carries the qualifier ``for all $(u_1, u_2) \in D$".
+The functions ${\vec{r}}$, ${\vec{N}}$, ${\hat{n}}$, and all of their partial derivatives are implicitly evaluated at the same point $(u_1, u_2) \in D$ whenever they appear in an expression without being given explicit arguments, so that they are shorthands for the $\mathbb{R}^3$ vectors resulting from those evaluations. The same is true for all quantities constructed in terms of them. Any statement made about these quantities implicitly carries the qualifier ``for all $(u_1, u_2) \in D$."
+
+\section{The First Fundamental Form}
+
+Suppose we are given two tangent vectors $\vec{v}_1, \vec{v}_2 \in T_{\vec{r}}S$ in terms of their components along $\partial_1 \vec{r}$ and $\partial_2 \vec{r}$. What is the dot product of $\vec{v}_1$ and $\vec{v}_2$, considered as elements of $\mathbb{R}^3$?
+
+Let:
+\begin{align*}
+  \vec{v}_1 = \alpha_1 \partial_1 \vec{r} + \beta_1 \partial_2 \vec{r} \\
+  \vec{v}_2 = \alpha_2 \partial_1 \vec{r} + \beta_2 \partial_2 \vec{r}
+\end{align*}
+
+Then:
+\begin{align*}
+  \vec{v}_1 \cdot \vec{v}_2 &= (\alpha_1 \partial_1 \vec{r} + \beta_1 \partial_2 \vec{r}) \cdot (\alpha_2 \partial_1 \vec{r} + \beta_2 \partial_2 \vec{r}) \\
+  &= \alpha_1 \alpha_2 (\partial_1 \vec{r} \cdot \partial_1 \vec{r}) + (\alpha_1 \beta_2 + \beta_1 \alpha_2) (\partial_1 \vec{r} \cdot \partial_2 \vec{r}) + \beta_1 \beta_2 (\partial_2 \vec{r} \cdot \partial_2 \vec{r})
+\end{align*}
+
+We now define the following quantities based on dot products formed using $\partial_1 {\vec{r}}$ and $\partial_2 {\vec{r}}$ and collect them into a matrix called the \textbf{first fundamental form}, denoted by the roman numeral $\mathrm{I}$:
+
+\begin{align}
+  E &= \partial_1 \vec{r} \cdot \partial_1 \vec{r} \\
+  F &= \partial_1 \vec{r} \cdot \partial_2 \vec{r} \\
+  G &= \partial_2 \vec{r} \cdot \partial_2 \vec{r}
+\end{align}
+
+\begin{equation}
+  \mathrm{I} =
+  \begin{bmatrix} E & F \\ F & G
+  \end{bmatrix}
+\end{equation}
+
+This allows the preceding dot product to be written as:
+
+\begin{align*}
+  \vec{v}_1 \cdot \vec{v}_2 &= \alpha_1 \alpha_2 E + (\alpha_1 \beta_2 + \beta_1 \alpha_2) F + \beta_1 \beta_2 G \\
+  &=
+  \begin{bmatrix} \alpha_1 & \beta_1
+  \end{bmatrix}
+  \mathrm{I}
+  \begin{bmatrix} \alpha_2 \\ \beta_2
+  \end{bmatrix} \\
+  &=
+  \begin{bmatrix} \alpha_2 & \beta_2
+  \end{bmatrix}
+  \mathrm{I}
+  \begin{bmatrix} \alpha_1 \\ \beta_1
+  \end{bmatrix}
+\end{align*}
+
+The first fundamental form therefore allows us to compute the physical-space ($\mathbb{R}^3$) dot product of the tangent vectors $\vec{v}_1, \vec{v}_2 \in T_{\vec{r}}S$ in terms of their respective coordinate-space representations $(\alpha_1, \beta_1), (\alpha_2, \beta_2) \in \mathbb{R}^2$. It also aids in the computation of areas--given a patch of coordinate space $E \subseteq D$, the area of the corresponding patch of $S$ covered by $\vec{r}(E)$ is:
+
+\begin{align*}
+  A_{\vec{r}(E)} &= \int_E (\partial_1 \vec{r} \times \partial_2 \vec{r}) \cdot \hat{n} \diff{u_1} \diff{u_2} \\
+  &= \int_E |\partial_1 \vec{r} \times \partial_2 \vec{r}| \diff{u_1} \diff{u_2} \\
+  &= \int_E \sqrt{(\partial_1 \vec{r} \cdot \partial_1 \vec{r})(\partial_2 \vec{r} \cdot \partial_2 \vec{r}) - (\partial_1 \vec{r} \cdot \partial_2 \vec{r})^2} \diff{u_1} \diff{u_2} \\
+  &= \int_E \sqrt{EG - F^2} \diff{u_1} \diff{u_2} \\
+  &= \int_E \sqrt{\det(\mathrm{I})} \diff{u_1} \diff{u_2}
+\end{align*}
+
+Note that the assumed linear independence of $\partial_1 \vec{r}$ and $\partial_2 \vec{r}$ guarantees that $\det(\mathrm{I}) > 0$.
+
+While our construction of the first fundamental form makes explicit reference to the way $S$ is embedded in $\mathbb{R}^3$ (since it is defined in terms of $\vec{r}$), one can alternatively consider defining an abstract surface by specifying the first fundamental form directly--i.e. specifying the coefficients $E$, $F$, and $G$ without reference to a higher-dimensional ambient space. By computing geometric quantities such as angles, lengths, and areas using only the first fundamental form, one can study the so-called \textit{intrinsic geometry} of the surface, which depends only on the internal properties of the surface itself. This is the approach taken by modern differential geometry and general relativity. Our own investigation of curvature in following sections will involve the construction and usage of quantiites which are ``intrinsic" in this sense.
+
+\section{The Second Fundamental Form}
+
+\section{The Gaussian Curvature}
+
+\section{Isometries}
+
+\section{Isometries Preserve Gaussian Curvature}
+
+\section{Appendices}
+
+\section{Shelf}
+
+\begin{align*}
+  \diff A_{\vec{n}(E)} &= (\partial_1 \hat{n} \times \partial_2 \hat{n}) \cdot \hat{n} \\
+  &=  (\partial_1 (\vec{N} / |\vec{N}|) \times \partial_2 (\vec{N} / |\vec{N}|)) \cdot \hat{n} \\
+  &= \frac{1}{|\vec{N}|^2} [(|\vec{N}| \partial_1 \vec{N} - (\partial_1 |\vec{N}|)\vec{N}) \times (|\vec{N}| \partial_2 \vec{N} - (\partial_2|\vec{N}|)\vec{N})] \cdot \hat{n} \\
+  &= \frac{1}{|\vec{N}|^2} [|\vec{N}|^2(\partial_1 \vec{N} \times \partial_2 \vec{N}) - |\vec{N}|(\partial_1 |\vec{N}|)(\vec{N} \times \partial_2 \vec{N}) - |\vec{N}| (\partial_2 |\vec{N}|)(\partial_1 \vec{N} \times \vec{N})] \cdot \hat{n} \\
+  &= (\partial_1 \vec{N} \times \partial_2 \vec{N}) \cdot \hat{n}
+\end{align*}
 
 \section{What exactly do we mean by ``curvature"?}
 
@@ -95,7 +178,7 @@ First, we analyze the partial derivatives $\partial_i\hat{n}$:
 The expression $(\partial_i \vec{N} - ((\partial_i \vec{N}) \cdot \hat{n}) \hat{n})$ subtracts from $\partial_i \vec{N}$ the component of itself which is parallel to $\hat{n}$, leaving only the orthogonal component which we denote by $(\partial_i \vec{N})_{\perp \hat{n}}$. $(\partial_i \vec{N})_{\perp \hat{n}}$ is therefore an element of the tangent plane $T_{\vec{r}}S$, so there exist coefficients $\alpha$ and $\beta$ such that:
 
 \begin{align*}
-\partial_i \hat{n} = \frac{(\partial_i \vec{N})_{\perp \hat{n}}}{|\vec{N}|} = \alpha (\partial_1 \vec{r}) + \beta (\partial_2 \vec{r})
+\partial_i \hat{n} = \frac{(\partial_i \vec{N})_{\perp \hat{n}}}{|\vec{N}|} = \alpha \partial_1 \vec{r} + \beta \partial_2 \vec{r}
 \end{align*}
 
 To find these coefficients, we first define the following values based on dot products formed using $\partial_1 {\vec{r}}$ and $\partial_2 {\vec{r}}$:
@@ -140,50 +223,5 @@ Note that the assumed linear independence of $\partial_1 \vec{r}$ and $\partial_
 \begin{equation*}
 EG - F^2 = (\partial_1 \vec{r} \cdot \partial_1 \vec{r})(\partial_2 \vec{r} \cdot \partial_2 \vec{r}) - (\partial_1 \vec{r} \cdot \partial_2 \vec{r})^2 > 0
 \end{equation*}
-
-\section{The First Fundamental Form, I}
-
-In the standard literature, the quantities $E$, $F$, and $G$ in the preceding section are grouped into the following matrix called the \textbf{first fundamental form}, whose determinant appears in the denominators of Eq. \eqref{eq6} and Eq. \eqref{eq7}.
-
-\begin{equation}
-\mathrm{I} =
-\begin{bmatrix} E & F \\ F & G
-\end{bmatrix}
-\end{equation}
-
-The first fundamental form answers the following geometric question: suppose we are given two tangent vectors $\vec{v}_1, \vec{v}_2 \in T_{\vec{r}}S$ in terms of their components along $\partial_1 \vec{r}$ and $\partial_2 \vec{r}$; what is the dot product of $\vec{v}_1$ and $\vec{v}_2$, considered as elements of $\mathbb{R}^3$?
-
-Let:
-\begin{align*}
-\vec{v}_1 = \alpha_1 \partial_1 \vec{r} + \beta_1 \partial_2 \vec{r} \\
-\vec{v}_2 = \alpha_2 \partial_1 \vec{r} + \beta_2 \partial_2 \vec{r}
-\end{align*}
-
-Then:
-
-\begin{align*}
-\vec{v}_1 \cdot \vec{v}_2 &= (\alpha_1 \partial_1 \vec{r} + \beta_1 \partial_2 \vec{r}) \cdot (\alpha_2 \partial_1 \vec{r} + \beta_2 \partial_2 \vec{r}) \\
-&= \alpha_1 \alpha_2 E + (\alpha_1 \beta_2 + \beta_1 \alpha_2) F + \beta_1 \beta_2 G \\
-&=
-\begin{bmatrix} \alpha_1 & \beta_1
-\end{bmatrix}
-\mathrm{I}
-\begin{bmatrix} \alpha_2 \\ \beta_2
-\end{bmatrix}
-\end{align*}
-
-That is, the first fundamental form allows us to compute the physical-space ($\mathbb{R}^3$) dot product of the coordinate velocity vectors $\vec{v}_1, \vec{v}_2 \in T_{\vec{r}}S$ in terms of their respective coordinate-space representations $(\alpha_1, \beta_1), (\alpha_2, \beta_2) \in \mathbb{R}^2$. I therefore captures critical information about the coordinate-space-to-physical-space mapping defined by $\vec{r}$.
-
-\section{Appendices}
-
-\section{Shelf}
-
-\begin{align*}
-\diff A_{\vec{n}(E)} &= (\partial_1 \hat{n} \times \partial_2 \hat{n}) \cdot \hat{n} \\
-&=  (\partial_1 (\vec{N} / |\vec{N}|) \times \partial_2 (\vec{N} / |\vec{N}|)) \cdot \hat{n} \\
-&= \frac{1}{|\vec{N}|^2} [(|\vec{N}| \partial_1 \vec{N} - (\partial_1 |\vec{N}|)\vec{N}) \times (|\vec{N}| \partial_2 \vec{N} - (\partial_2|\vec{N}|)\vec{N})] \cdot \hat{n} \\
-&= \frac{1}{|\vec{N}|^2} [|\vec{N}|^2(\partial_1 \vec{N} \times \partial_2 \vec{N}) - |\vec{N}|(\partial_1 |\vec{N}|)(\vec{N} \times \partial_2 \vec{N}) - |\vec{N}| (\partial_2 |\vec{N}|)(\partial_1 \vec{N} \times \vec{N})] \cdot \hat{n} \\
-&= (\partial_1 \vec{N} \times \partial_2 \vec{N}) \cdot \hat{n}
-\end{align*}
 
 \end{document}
