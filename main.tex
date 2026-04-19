@@ -1,0 +1,189 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+\title{Theorema Egregium}
+\author{Michael Qian}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  Following Gauss's footsteps, we develop a method for quantifying the curvature of 2-dimensional surfaces, then show that this notion of curvature can be used as a ``compatibility condition" when determining whether or not one surface can serve as a faithful cartographic map of another--i.e., one which which preserves angles, distances (up to a constant scale factor $k$), and areas (up to a scale factor $k^2$). We then apply this compatibility condition to the analysis of two real-world problems: (1) mapping the surface of the Earth and (2) optimal pizza-wielding technique.
+\end{abstract}
+
+\section{Basic Definitions}
+
+A \textbf{parametric surface} is defined by a smooth function $\vec{r} : D \to \mathbb{R}^3$ where $D$ is an open, connected subset of $\mathbb{R}^2$. $D$ acts the as the coordinate space used to parameterize the surface, while $\vec{r}$ maps each coordinate pair $(u_1, u_2) \in D$ to the point in $\mathbb{R}^3$ representing the physical location of the point on the surface described by those coordinates. The surface $S$ is then formed as the image of the entire coordinate space under the map $\vec{r}$:
+
+\begin{equation*}
+  S := \vec{r}(D) := \{\vec{r}(u_1, v_1) \mid (u_1, u_2) \in D\}
+\end{equation*}
+
+We will additionally assume that $\vec{r}$ is \textbf{regular}--the partial derivatives of $\vec{r}$ with respect to its first and second arguments (resp. $\partial_1 \vec{r}$ and $\partial_2 \vec{r}$) are linearly independent whenever they are evaluated at the same point $(u_1, u_2) \in D$, for all points in $D$. This guarantees that, at every point on the surface, varying one coordinate results in motion which cannot be achieved by varying the other coordinate. The smoothness and regularity of $\vec{r}$ together justify the intuition that $S$ is a 2-dimensional object embedded in 3-dimensional space.
+
+Given a pair of smooth functions $u_1, u_2 : I \to D$ where $I$ is an open, non-empty interval of $\mathbb{R}$, we can define a curve on $S$ given by:
+
+\begin{align*}
+  \vec{\gamma} : I &\to \mathbb{R}^3 \\
+  t &\mapsto \vec{r}(u_1(t), u_2(t))
+\end{align*}
+
+Each function $u_i(t)$ can be interpreted as indicating the value of the i\textsuperscript{th} coordinate at time $t$. The function $\vec{\gamma}$ then uses these coordinate functions to define a curve in $\mathbb{R}^3$ which is contained in $S$. The velocity of such a curve at time $t$ is given by:
+\begin{equation*}
+  \dot{\vec{\gamma}}(t) = \dot{u}_1(t) [\partial_1 \vec{r}](u_1(t), u_2(t)) + \dot{u}_2(t) [\partial_2 \vec{r}](u_1(t), u_2(t))
+\end{equation*}
+
+Where $\dot{u}_i$ is the $i$\textsuperscript{th} component of the \textbf{coordinate velocity}--the rate of change of the coordinate tuple $(u_1(t), u_2(t))$ with respect to $t$. Since the velocity $\dot{\vec{\gamma}}(t)$ is tangent to the curve at the point $\vec{\gamma}(t)$, and $\vec{\gamma}$ is fully contained in $S$ by construction, $\dot{\vec{\gamma}}(t)$ is therefore also tangent to the surface $S$ at the point $\vec{\gamma}(t)$. This motivates the definition of the the \textbf{tangent plane} $T_{\vec{r}(u_1, u_2)}S$ at the point $\vec{r}(u_1, u_2)$ for each $(u_1, u_2) \in D$ as the set of vectors given by:
+
+\begin{equation*}
+  T_{\vec{r}(u_1, u_2)}S := \{\alpha [\partial_1 \vec{r}](u_1, u_2) + \beta [\partial_2 \vec{r}](u_1, u_2) \mid (\alpha, \beta) \in \mathbb{R}^2\}
+\end{equation*}
+
+This plane can be understood as the set of all velocity vectors associated with all possible curves on $S$ passing through the point $\vec{r}(u_1, u_2)$. It is evident that this is a 2-dimensional subspace of $\mathbb{R}^3$ since it is defined as the linear span of the vectors $[\partial_1 \vec{r}](u_1, u_2)$ and $[\partial_2 \vec{r}](u_1, u_2)$.
+
+Additionally, we define the \textbf{surface normal} $\vec{N}(u_1, u_2)$ and \textbf{unit surface normal} $\hat{n}(u_1, u_2)$ vectors at $\vec{r}(u_1, u_2)$ as:
+
+\begin{align*}
+  \vec{N}(u_1, u_2) &:= [\partial_1 \vec{r}](u_1, u_2) \times [\partial_2 \vec{r}](u_1, u_2) \\
+  \hat{n}(u_1, u_2) &:= \frac{\vec{N}(u_1, u_2)}{|\vec{N}(u_1, u_2)|}
+\end{align*}
+
+These vectors stand orthogonal to $T_{\vec{r}(u_1, u_2)}S$ (and therefore also $S$ itself) at the point $\vec{r}(u_1, u_2)$ and are guaranteed to be non-zero everywhere on $S$ due to the regularity of $\vec{r}$. Note that the set $\{[\partial_1 \vec{r}](u_1, u_2), [\partial_2 \vec{r}](u_1, u_2), \hat{n}(u_1, u_2)\}$ is a linearly independent set of three vectors in $\mathbb{R}^3$, so any vector in $\mathbb{R}^3$ can be decomposed as a unique linear combination of them. The same is true if $\vec{N}(u_1, u_2)$ is substituted for $\hat{n}(u_1, u_2)$.
+
+The unit surface normal $\hat{n}$ can additionally be interpreted as a map from $D$ to the unit sphere $\mathbb{S}^2$ (\textit{not} the Cartesian product of the surface $S$ with itself) due to its output always being unit-length. Under this interpretation, it is known as the \textbf{Gauss map}.
+
+\section{Notation}
+
+The functions ${\vec{r}}$, ${\vec{N}}$, ${\hat{n}}$, and all of their partial derivatives are implicitly evaluated at the same point $(u_1, u_2) \in D$ whenever they appear in an expression without being given explicit arguments, so that they are shorthands for the $\mathbb{R}^3$ vectors resulting from those evaluations. Any statement made about these vectors implicitly carries the qualifier ``for all $(u_1, u_2) \in D$".
+
+\section{What exactly do we mean by ``curvature"?}
+
+We begin our exploration of surface curvature by investigating, for a given patch of coordinate space $E \subseteq D$, the relationship between the signed area $A_{\vec{r}(E)}$ on $S$ covered by $\vec{r}(E)$ and the signed area $A_{\hat{n}(E)}$ on $\mathbb{S}^2$ covered by $\hat{n}(E)$:
+
+\begin{align*}
+  A_{\vec{r}(E)} &= \int_E (\partial_1 \vec{r} \times \partial_2 \vec{r}) \cdot \hat{n} \diff{u_1} \diff{u_2} \\
+  A_{\hat{n}(E)} &= \int_E (\partial_1 \hat{n} \times \partial_2 \hat{n}) \cdot \hat{n} \diff{u_1} \diff{u_2}
+\end{align*}
+
+The motivation for doing so is this: $\mathbb{S}^2$ effectively represents the ``space of directions" one can face in $\mathbb{R}^3$. The area $A_{\hat{n}(E)}$ then represents the portion of this ``space of directions" covered by the unit surface normals of $\vec{r}(E)$. This suggests a definition of curvature based on ``amount of direction space covered per unit surface area," which directs our attention to the relationship between the integrands.
+
+First, we analyze the partial derivatives $\partial_i\hat{n}$:
+
+\begin{align*}
+  \partial_i \hat{n} &= \partial_i \left( \frac{\vec{N}}{|\vec{N}|} \right) \\
+  &= \frac{1}{|\vec{N}|^2}(|\vec{N}| \partial_i \vec{N} - (\partial_i |\vec{N}|) \vec{N}) \\
+&= \frac{1}{|\vec{N}|^2} (|\vec{N}| \partial_i \vec{N} - (\partial_i ((\vec{N} \cdot \vec{N})^{\frac{1}{2}}))\vec{N})) \\
+&= \frac{1}{|\vec{N}|^2} \left(|\vec{N}| \partial_i \vec{N} - \left( \frac{1}{2} (\vec{N} \cdot \vec{N})^{-\frac{1}{2}} (2 (\partial_i \vec{N}) \cdot \vec{N}) \right) \vec{N} \right) \\
+&= \frac{1}{|\vec{N}|^2} \left(|\vec{N}| \partial_i \vec{N} - \left( \frac{1}{|\vec{N}|} (\partial_i \vec{N}) \cdot \vec{N} \right) \vec{N} \right) \\
+&= \frac{1}{|\vec{N}|} (\partial_i \vec{N} - ((\partial_i \vec{N}) \cdot \hat{n}) \hat{n})
+\end{align*}
+
+The expression $(\partial_i \vec{N} - ((\partial_i \vec{N}) \cdot \hat{n}) \hat{n})$ subtracts from $\partial_i \vec{N}$ the component of itself which is parallel to $\hat{n}$, leaving only the orthogonal component which we denote by $(\partial_i \vec{N})_{\perp \hat{n}}$. $(\partial_i \vec{N})_{\perp \hat{n}}$ is therefore an element of the tangent plane $T_{\vec{r}}S$, so there exist coefficients $\alpha$ and $\beta$ such that:
+
+\begin{align*}
+\partial_i \hat{n} = (\partial_i \vec{N})_{\perp \hat{n}} = \alpha (\partial_1 \vec{r}) + \beta (\partial_2 \vec{r})
+\end{align*}
+
+To find these coefficients, we first define the following values based on dot products formed using $\partial_1 {\vec{r}}$ and $\partial_2 {\vec{r}}$:
+
+\begin{align}
+E &= \partial_1{\vec{r}} \cdot \partial_1{\vec{r}} \\
+F &= \partial_1{\vec{r}} \cdot \partial_2{\vec{r}} \\
+G &= \partial_2{\vec{r}} \cdot \partial_2{\vec{r}}
+\end{align}
+
+We then have:
+
+{
+\newcommand{\ndrone}{(\partial_i \vec{N})_{\perp \hat{n}} \cdot \partial_1{\vec{r}}}
+\newcommand{\ndrtwo}{(\partial_i \vec{N})_{\perp \hat{n}} \cdot \partial_2{\vec{r}}}
+
+\begin{align}
+  \label{eq4}
+  \ndrone &= \alpha E + \beta F \\
+  \label{eq5}
+  \ndrtwo &= \alpha F + \beta G
+\end{align}
+
+We can cancel all terms involving $\beta$ by multiplying Eq. \eqref{eq4} by $G$, multiplying Eq. \eqref{eq5} by $F$, then subtracting the two. Rearranging to isolate $\alpha$ gives:
+
+\begin{equation}
+  \label{eq6}
+  \alpha = \frac{(\ndrone)G - (\ndrtwo)F}{EG - F^2}
+\end{equation}
+
+A similar manipulation can be used to solve for $\beta$, giving:
+
+\begin{equation}
+  \label{eq7}
+  \beta = \frac{(\ndrtwo)E - (\ndrone)F}{EG - F^2}
+\end{equation}
+
+}
+
+Note that the assumed linear independence of $\partial_1 \vec{r}$ and $\partial_2 \vec{r}$ guarantees that:
+
+\begin{equation*}
+EG - F^2 = (\partial_1 \vec{r} \cdot \partial_1 \vec{r})(\partial_2 \vec{r} \cdot \partial_2 \vec{r}) - (\partial_1 \vec{r} \cdot \partial_2 \vec{r})^2 > 0
+\end{equation*}
+
+\section{The First Fundamental Form, I}
+
+In the standard literature, the quantities $E$, $F$, and $G$ in the preceding section are grouped into the following matrix called the \textbf{first fundamental form}, whose determinant appears in the denominators of Eq. \eqref{eq6} and Eq. \eqref{eq7}.
+
+\begin{equation}
+\mathrm{I} =
+\begin{bmatrix} E & F \\ F & G
+\end{bmatrix}
+\end{equation}
+
+The first fundamental form answers the following geometric question: suppose we are given two tangent vectors $\vec{v}_1, \vec{v}_2 \in T_{\vec{r}}S$ in terms of their components along $\partial_1 \vec{r}$ and $\partial_2 \vec{r}$; what is the dot product of $\vec{v}_1$ and $\vec{v}_2$, considered as elements of $\mathbb{R}^3$?
+
+Let:
+\begin{align*}
+\vec{v}_1 = \alpha_1 \partial_1 \vec{r} + \beta_1 \partial_2 \vec{r} \\
+\vec{v}_2 = \alpha_2 \partial_1 \vec{r} + \beta_2 \partial_2 \vec{r}
+\end{align*}
+
+Then:
+
+\begin{align*}
+\vec{v}_1 \cdot \vec{v}_2 &= (\alpha_1 \partial_1 \vec{r} + \beta_1 \partial_2 \vec{r}) \cdot (\alpha_2 \partial_1 \vec{r} + \beta_2 \partial_2 \vec{r}) \\
+&= \alpha_1 \alpha_2 E + (\alpha_1 \beta_2 + \beta_1 \alpha_2) F + \beta_1 \beta_2 G \\
+&=
+\begin{bmatrix} \alpha_1 & \beta_1
+\end{bmatrix}
+\mathrm{I}
+\begin{bmatrix} \alpha_2 \\ \beta_2
+\end{bmatrix}
+\end{align*}
+
+That is, the first fundamental form allows us to compute the physical-space ($\mathbb{R}^3$) dot product of the coordinate velocity vectors $\vec{v}_1, \vec{v}_2 \in T_{\vec{r}}S$ in terms of their respective coordinate-space representations $(\alpha_1, \beta_1), (\alpha_2, \beta_2) \in \mathbb{R}^2$. I therefore captures critical information about the coordinate-space-to-physical-space mapping defined by $\vec{r}$.
+
+\section{Appendices}
+
+\section{Shelf}
+
+\begin{align*}
+\diff A_{\vec{n}(E)} &= (\partial_1 \hat{n} \times \partial_2 \hat{n}) \cdot \hat{n} \\
+&=  (\partial_1 (\vec{N} / |\vec{N}|) \times \partial_2 (\vec{N} / |\vec{N}|)) \cdot \hat{n} \\
+&= \frac{1}{|\vec{N}|^2} [(|\vec{N}| \partial_1 \vec{N} - (\partial_1 |\vec{N}|)\vec{N}) \times (|\vec{N}| \partial_2 \vec{N} - (\partial_2|\vec{N}|)\vec{N})] \cdot \hat{n} \\
+&= \frac{1}{|\vec{N}|^2} [|\vec{N}|^2(\partial_1 \vec{N} \times \partial_2 \vec{N}) - |\vec{N}|(\partial_1 |\vec{N}|)(\vec{N} \times \partial_2 \vec{N}) - |\vec{N}| (\partial_2 |\vec{N}|)(\partial_1 \vec{N} \times \vec{N})] \cdot \hat{n} \\
+&= (\partial_1 \vec{N} \times \partial_2 \vec{N}) \cdot \hat{n}
+\end{align*}
+
+\end{document}
