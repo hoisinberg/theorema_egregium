@@ -95,7 +95,7 @@ First, we analyze the partial derivatives $\partial_i\hat{n}$:
 The expression $(\partial_i \vec{N} - ((\partial_i \vec{N}) \cdot \hat{n}) \hat{n})$ subtracts from $\partial_i \vec{N}$ the component of itself which is parallel to $\hat{n}$, leaving only the orthogonal component which we denote by $(\partial_i \vec{N})_{\perp \hat{n}}$. $(\partial_i \vec{N})_{\perp \hat{n}}$ is therefore an element of the tangent plane $T_{\vec{r}}S$, so there exist coefficients $\alpha$ and $\beta$ such that:
 
 \begin{align*}
-\partial_i \hat{n} = (\partial_i \vec{N})_{\perp \hat{n}} = \alpha (\partial_1 \vec{r}) + \beta (\partial_2 \vec{r})
+\partial_i \hat{n} = \frac{(\partial_i \vec{N})_{\perp \hat{n}}}{|\vec{N}|} = \alpha (\partial_1 \vec{r}) + \beta (\partial_2 \vec{r})
 \end{align*}
 
 To find these coefficients, we first define the following values based on dot products formed using $\partial_1 {\vec{r}}$ and $\partial_2 {\vec{r}}$:
@@ -109,8 +109,8 @@ G &= \partial_2{\vec{r}} \cdot \partial_2{\vec{r}}
 We then have:
 
 {
-\newcommand{\ndrone}{(\partial_i \vec{N})_{\perp \hat{n}} \cdot \partial_1{\vec{r}}}
-\newcommand{\ndrtwo}{(\partial_i \vec{N})_{\perp \hat{n}} \cdot \partial_2{\vec{r}}}
+\newcommand{\ndrone}{\partial_i \hat{n} \cdot \partial_1{\vec{r}}}
+\newcommand{\ndrtwo}{\partial_i \hat{n} \cdot \partial_2{\vec{r}}}
 
 \begin{align}
   \label{eq4}
